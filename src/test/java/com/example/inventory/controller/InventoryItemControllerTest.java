@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 @SpringBootTest(classes = InventoryApiApplication.class)
 @AutoConfigureMockMvc
@@ -21,7 +22,7 @@ class InventoryItemControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser(roles = "VIEWER")
+    @WithMockUser(authorities = "ITEM_READ")
     void getAllItems_shouldReturnOk() throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/items")
@@ -33,7 +34,7 @@ class InventoryItemControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "VIEWER")
+    @WithMockUser(authorities = "ITEM_READ")
     void getItemById_shouldReturnNotFound_whenItemDoesNotExist() throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/items/999999")
@@ -45,8 +46,53 @@ class InventoryItemControllerTest {
                         .value("/api/items/999999"));
     }
 
+
+
     @Test
-    @WithMockUser(roles = "ADMINISTRATOR")
+    @WithMockUser(authorities = "ITEM_READ")
+    void updateItem_shouldReturnForbidden_whenUserIsViewer() throws Exception {
+        Long itemId = createTestItem();
+
+        String requestBody = """
+                {
+                    "name": "Forbidden Update",
+                    "sku": "FORBIDDEN-UPD-%s",
+                    "quantity": 20,
+                    "price": 59.99,
+                    "category": "ELECTRONICS",
+                    "location": "warehouse-test",
+                    "description": "This item should not be updated"
+                }
+                """.formatted(System.nanoTime());
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/api/items/" + itemId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestBody)
+                )
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+
+
+    @Test
+    @WithMockUser(authorities = "ITEM_READ")
+    void deleteItem_shouldReturnForbidden_whenUserIsViewer() throws Exception {
+        Long itemId = createTestItem();
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/api/items/" + itemId)
+                )
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(authorities = {
+            "ITEM_READ",
+            "ITEM_CREATE",
+            "ITEM_UPDATE",
+            "ITEM_DELETE"
+    })
     void createItem_shouldReturnCreated() throws Exception {
         String sku = "TEST-KEYBOARD-" + System.nanoTime();
 
@@ -75,7 +121,12 @@ class InventoryItemControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMINISTRATOR")
+    @WithMockUser(authorities = {
+            "ITEM_READ",
+            "ITEM_CREATE",
+            "ITEM_UPDATE",
+            "ITEM_DELETE"
+    })
     void updateItem_shouldReturnOk() throws Exception {
         Long itemId = createTestItem();
 
@@ -102,7 +153,12 @@ class InventoryItemControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMINISTRATOR")
+    @WithMockUser(authorities = {
+            "ITEM_READ",
+            "ITEM_CREATE",
+            "ITEM_UPDATE",
+            "ITEM_DELETE"
+    })
     void deleteItem_shouldReturnNoContent() throws Exception {
         Long itemId = createTestItem();
 
@@ -113,7 +169,7 @@ class InventoryItemControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "VIEWER")
+    @WithMockUser(authorities = "ITEM_READ")
     void createItem_shouldReturnForbidden_whenUserIsViewer() throws Exception {
         String requestBody = """
                 {
@@ -152,6 +208,13 @@ class InventoryItemControllerTest {
 
         String response = mockMvc.perform(
                         MockMvcRequestBuilders.post("/api/items")
+                                .with(SecurityMockMvcRequestPostProcessors.user("test-admin")
+                                        .authorities(
+                                                new org.springframework.security.core.authority.SimpleGrantedAuthority("ITEM_READ"),
+                                                new org.springframework.security.core.authority.SimpleGrantedAuthority("ITEM_CREATE"),
+                                                new org.springframework.security.core.authority.SimpleGrantedAuthority("ITEM_UPDATE"),
+                                                new org.springframework.security.core.authority.SimpleGrantedAuthority("ITEM_DELETE")
+                                        ))
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(requestBody)
                 )

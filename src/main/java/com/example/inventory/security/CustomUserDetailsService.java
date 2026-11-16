@@ -1,6 +1,7 @@
 package com.example.inventory.security;
 
 import com.example.inventory.entity.AppUser;
+import com.example.inventory.entity.Permission;
 import com.example.inventory.repository.AppUserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return User.withUsername(appUser.getUsername())
                 .password(appUser.getPassword())
-                .authorities("ROLE_" + appUser.getRole().name())
+                .authorities(
+                    appUser.getPermissions()
+                        .stream()
+                        .map(Permission::getName)
+                        .toArray(String[]::new)
+                )
                 .build();
     }
 }

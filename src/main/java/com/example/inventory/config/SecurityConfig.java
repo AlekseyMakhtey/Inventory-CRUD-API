@@ -1,7 +1,6 @@
 
 package com.example.inventory.config;
 
-import com.example.inventory.security.CustomUserDetailsService;
 import com.example.inventory.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -28,15 +26,12 @@ public class SecurityConfig {
             throws Exception {
 
         http
-                // Отключаем CSRF, так как используем JWT
                 .csrf(csrf -> csrf.disable())
 
-                // Не используем HTTP-сессии
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-                // Настраиваем права доступа
                 .authorizeHttpRequests(auth -> auth
 
                         // Авторизация и Swagger доступны без токена
@@ -47,36 +42,38 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
 
-                        // Просмотр товаров доступен обеим ролям
-                        .requestMatchers(HttpMethod.GET,
+                        // Просмотр товаров
+                        .requestMatchers(
+                                HttpMethod.GET,
                                 "/api/items",
                                 "/api/items/**"
-                        ).hasAnyRole("ADMINISTRATOR", "VIEWER")
+                        ).hasAuthority("ITEM_READ")
 
-                        // Создание, изменение и удаление — только администратор
+                        // Создание товара
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/items",
                                 "/api/items/**"
-                        ).hasRole("ADMINISTRATOR")
+                        ).hasAuthority("ITEM_CREATE")
 
+                        // Изменение товара
                         .requestMatchers(
                                 HttpMethod.PUT,
                                 "/api/items",
                                 "/api/items/**"
-                        ).hasRole("ADMINISTRATOR")
+                        ).hasAuthority("ITEM_UPDATE")
 
+                        // Удаление товара
                         .requestMatchers(
                                 HttpMethod.DELETE,
                                 "/api/items",
                                 "/api/items/**"
-                        ).hasRole("ADMINISTRATOR")
+                        ).hasAuthority("ITEM_DELETE")
 
-                        // Все остальные запросы запрещены
+                        // Остальные запросы запрещены
                         .anyRequest().denyAll()
                 )
 
-                // Подключаем наш JWT-фильтр
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
@@ -85,7 +82,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Создаём AuthenticationManager для будущей авторизации
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration
