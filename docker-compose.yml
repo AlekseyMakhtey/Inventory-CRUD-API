@@ -19,6 +19,47 @@ services:
       retries: 5
 
 
+  statistics-db:
+    image: postgres:16-alpine
+    container_name: statistics-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: statistics_db
+      POSTGRES_USER: statistics_user
+      POSTGRES_PASSWORD: statistics_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - statistics_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U statistics_user -d statistics_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  statistics-service:
+    build:
+      context: ./statistics-service
+      dockerfile: Dockerfile
+    container_name: statistics-service
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://statistics-db:5432/statistics_db
+      SPRING_DATASOURCE_USERNAME: statistics_user
+      SPRING_DATASOURCE_PASSWORD: statistics_password
+      INVENTORY_API_URL: http://app:8080
+      INVENTORY_API_USERNAME: ${VIEWER_USERNAME}
+      INVENTORY_API_PASSWORD: ${VIEWER_PASSWORD}
+    depends_on:
+      statistics-db:
+        condition: service_healthy
+      app:
+        condition: service_started
+
+
+
   app:
     build: .
     container_name: inventory-api
@@ -39,3 +80,4 @@ services:
 
 volumes:
   inventory_postgres_data:
+  statistics_postgres_data:
