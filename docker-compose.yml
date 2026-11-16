@@ -1,0 +1,41 @@
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: inventory
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: inventory_db
+      POSTGRES_USER: inventory_user
+      POSTGRES_PASSWORD: inventory_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - inventory_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U inventory_user -d inventory_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  app:
+    build: .
+    container_name: inventory-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/inventory_db
+      SPRING_DATASOURCE_USERNAME: inventory_user
+      SPRING_DATASOURCE_PASSWORD: inventory_password
+      APP_BOOTSTRAP_ADMIN_USERNAME: ${ADMIN_USERNAME}
+      APP_BOOTSTRAP_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      APP_BOOTSTRAP_VIEWER_USERNAME: ${VIEWER_USERNAME}
+      APP_BOOTSTRAP_VIEWER_PASSWORD: ${VIEWER_PASSWORD}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  inventory_postgres_data:
