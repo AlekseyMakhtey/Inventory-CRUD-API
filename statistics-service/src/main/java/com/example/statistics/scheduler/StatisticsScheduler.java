@@ -1,4 +1,3 @@
-
 package com.example.statistics.scheduler;
 
 import com.example.statistics.service.StatisticsCollectionService;

@@ -6,12 +6,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import com.example.inventory.entity.Category;
 import com.example.inventory.entity.InventoryItem;
 import com.example.inventory.dto.InventoryItemResponse;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -274,9 +272,7 @@ class InventoryItemServiceTest {
                 inventoryItemService.searchItems(
                         "   ", null, null, pageable
                 );
-
         assertTrue(result.isEmpty());
-
         verify(inventoryItemRepository, times(1)).searchItems(
                 null, null, null, pageable
         );

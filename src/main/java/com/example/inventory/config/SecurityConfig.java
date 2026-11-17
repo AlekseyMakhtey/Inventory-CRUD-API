@@ -1,4 +1,3 @@
-
 package com.example.inventory.config;
 
 import com.example.inventory.security.JwtAuthenticationFilter;
@@ -24,16 +23,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
             throws Exception {
-
         http
                 .csrf(csrf -> csrf.disable())
-
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-
                 .authorizeHttpRequests(auth -> auth
-
                         // Авторизация и Swagger доступны без токена
                         .requestMatchers(
                                 "/api/auth/**",
@@ -86,6 +81,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration
     ) throws Exception {
-        return configuration.getAuthenticationManager();
+            return configuration.getAuthenticationManager();
     }
 }

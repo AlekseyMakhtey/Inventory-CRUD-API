@@ -1,4 +1,3 @@
-
 package com.example.statistics.service;
 
 import com.example.statistics.client.InventoryApiClient;
@@ -9,7 +8,6 @@ import com.example.statistics.repository.StatisticsCategoryRepository;
 import com.example.statistics.repository.StatisticsSnapshotRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;

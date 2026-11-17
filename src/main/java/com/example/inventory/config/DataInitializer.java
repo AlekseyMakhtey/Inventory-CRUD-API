@@ -1,4 +1,3 @@
-
 package com.example.inventory.config;
 
 import com.example.inventory.entity.AppUser;
@@ -11,9 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Configuration
 public class DataInitializer {
@@ -51,7 +48,7 @@ public class DataInitializer {
                 return;
             }
 
-            // Получаем разрешения из базы данных
+            // Получаем разрешения
             Set<Permission> adminPermissions = Set.of(
                     getPermission(permissionRepository, "ITEM_READ"),
                     getPermission(permissionRepository, "ITEM_CREATE"),
@@ -77,7 +74,7 @@ public class DataInitializer {
                 System.out.println("Administrator created.");
             }
 
-            // Создаём пользователя для чтения
+            // Создаём пользователя
             if (userRepository.findByUsername(viewerUsername).isEmpty()) {
 
                 AppUser viewer = new AppUser();

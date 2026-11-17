@@ -1,4 +1,3 @@
-
 package com.example.statistics.service;
 
 import com.example.statistics.dto.StatisticsResponse;
@@ -7,7 +6,6 @@ import com.example.statistics.repository.StatisticsCategoryRepository;
 import com.example.statistics.repository.StatisticsSnapshotRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.stream.Collectors;

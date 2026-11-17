@@ -1,4 +1,3 @@
-
 CREATE TABLE statistics_snapshots (
     id BIGSERIAL PRIMARY KEY,
     collected_at TIMESTAMP NOT NULL,

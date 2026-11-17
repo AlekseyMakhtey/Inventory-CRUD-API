@@ -2,7 +2,6 @@ package com.example.inventory.dto;
 
 import com.example.inventory.entity.Category;
 import jakarta.validation.constraints.*;
-
 import java.math.BigDecimal;
 
 public class InventoryItemRequest {
@@ -13,8 +12,7 @@ public class InventoryItemRequest {
 
     @NotBlank(message = "SKU is required")
     @Size(max = 30, message = "SKU must contain under 30 characyers")
-    @Pattern(regexp = "^[A-Za-z0-9_-]+$",
-            message = "SKU can contain only latin letters, digits, hyphens and underscores")
+    @Pattern(regexp = "^[A-Za-z0-9_-]+$", message = "SKU can contain only latin letters, digits, hyphens and underscores")
     private String sku;
 
     @NotNull(message = "Quantity is required")
@@ -23,8 +21,7 @@ public class InventoryItemRequest {
 
     @NotNull(message = "Price is required")
     @DecimalMin(value = "0.00", message = "Price must be positiv")
-    @Digits(integer = 10, fraction = 2,
-            message = "Price must have up to 10 integer digits and 2 decimal places")
+    @Digits(integer = 10, fraction = 2, message = "Price must have up to 10 integer digits and 2 decimal places")
     private BigDecimal price;
 
     @NotNull(message = "Category is required")

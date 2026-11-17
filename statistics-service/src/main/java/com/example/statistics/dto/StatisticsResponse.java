@@ -1,4 +1,3 @@
-
 package com.example.statistics.dto;
 
 import java.time.LocalDateTime;

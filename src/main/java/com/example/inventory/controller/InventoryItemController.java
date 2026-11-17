@@ -1,4 +1,3 @@
-
 package com.example.inventory.controller;
 
 import com.example.inventory.dto.InventoryItemRequest;

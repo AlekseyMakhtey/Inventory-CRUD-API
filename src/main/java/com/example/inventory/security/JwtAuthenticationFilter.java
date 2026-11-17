@@ -1,4 +1,3 @@
-
 package com.example.inventory.security;
 
 import jakarta.servlet.FilterChain;
@@ -39,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
 
-        // Если заголовка нет или он не содержит Bearer-токен,
+        // Если заголовка нет или он не содержит Bearer-токен то
         // продолжаем обработку запроса.
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);

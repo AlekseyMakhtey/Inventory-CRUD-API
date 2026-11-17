@@ -46,8 +46,6 @@ class InventoryItemControllerTest {
                         .value("/api/items/999999"));
     }
 
-
-
     @Test
     @WithMockUser(authorities = "ITEM_READ")
     void updateItem_shouldReturnForbidden_whenUserIsViewer() throws Exception {
@@ -72,8 +70,6 @@ class InventoryItemControllerTest {
                 )
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
-
-
 
     @Test
     @WithMockUser(authorities = "ITEM_READ")
@@ -127,6 +123,7 @@ class InventoryItemControllerTest {
             "ITEM_UPDATE",
             "ITEM_DELETE"
     })
+
     void updateItem_shouldReturnOk() throws Exception {
         Long itemId = createTestItem();
 
@@ -159,6 +156,7 @@ class InventoryItemControllerTest {
             "ITEM_UPDATE",
             "ITEM_DELETE"
     })
+
     void deleteItem_shouldReturnNoContent() throws Exception {
         Long itemId = createTestItem();
 

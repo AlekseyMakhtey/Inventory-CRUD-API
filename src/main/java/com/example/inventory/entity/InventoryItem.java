@@ -1,4 +1,3 @@
-
 package com.example.inventory.entity;
 
 import jakarta.persistence.*;
@@ -36,8 +35,6 @@ public class InventoryItem {
 
     public InventoryItem() {
     }
-
-    // Getters and Setters
 
     public Long getId() {
         return id;

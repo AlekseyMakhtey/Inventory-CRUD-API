@@ -73,6 +73,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
+    // Обработка ошибок, связанных с некорректными аргументами
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
                 IllegalArgumentException ex,
@@ -89,6 +90,7 @@ public class GlobalExceptionHandler {
             return ResponseEntity.badRequest().body(errorResponse);
     }
 
+    // Обработка всех непредвиденных ошибок сервера
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(
             Exception ex,

@@ -1,4 +1,3 @@
-
 package com.example.statistics.client;
 
 import com.example.statistics.dto.InventoryPageResponse;

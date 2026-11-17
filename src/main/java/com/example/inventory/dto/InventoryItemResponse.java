@@ -1,7 +1,6 @@
 package com.example.inventory.dto;
 
 import com.example.inventory.entity.Category;
-
 import java.math.BigDecimal;
 
 public class InventoryItemResponse {

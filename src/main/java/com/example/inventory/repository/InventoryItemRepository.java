@@ -1,4 +1,3 @@
-
 package com.example.inventory.repository;
 
 import com.example.inventory.entity.Category;

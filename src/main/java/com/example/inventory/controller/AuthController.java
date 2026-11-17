@@ -29,7 +29,7 @@ public class AuthController {
             @Valid @RequestBody LoginRequest request
     ) {
 
-        // Проверяем логин и пароль
+        // Проверка логин и пароль
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),

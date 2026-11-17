@@ -1,0 +1,39 @@
+warning: in the working copy of 'src/test/java/com/example/inventory/InventoryApiApplicationTests.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'statistics-service/src/main/java/com/example/statistics/StatisticsServiceApplication.java', LF will be replaced by CRLF the next time Git touches it
+ README.md                                          | 556 [32m+++++++++++++++[m[31m------[m
+ .../example/inventory/config/DataInitializer.java  |   7 [32m+[m[31m-[m
+ .../example/inventory/config/OpenApiConfig.java    |   2 [31m-[m
+ .../example/inventory/config/PasswordConfig.java   |   1 [31m-[m
+ .../example/inventory/config/SecurityConfig.java   |   7 [32m+[m[31m-[m
+ .../inventory/controller/AuthController.java       |   2 [32m+[m[31m-[m
+ .../controller/InventoryItemController.java        |   1 [31m-[m
+ .../inventory/dto/InventoryItemRequest.java        |   7 [32m+[m[31m-[m
+ .../inventory/dto/InventoryItemResponse.java       |   1 [31m-[m
+ .../com/example/inventory/entity/Category.java     |   1 [31m-[m
+ .../example/inventory/entity/InventoryItem.java    |   3 [31m-[m
+ .../exception/GlobalExceptionHandler.java          |   2 [32m+[m
+ .../inventory/repository/AppUserRepository.java    |   2 [31m-[m
+ .../repository/InventoryItemRepository.java        |   1 [31m-[m
+ .../inventory/repository/PermissionRepository.java |   3 [31m-[m
+ .../security/JwtAuthenticationFilter.java          |   3 [32m+[m[31m-[m
+ .../com/example/inventory/security/JwtService.java |   1 [31m-[m
+ .../db/migration/V1__create_inventory_items.sql    |   1 [31m-[m
+ .../inventory/InventoryApiApplicationTests.java    |   2 [31m-[m
+ .../controller/InventoryItemControllerTest.java    |   6 [32m+[m[31m-[m
+ .../service/InventoryItemServiceTest.java          |   4 [31m-[m
+ .../statistics/StatisticsServiceApplication.java   |   1 [31m-[m
+ .../statistics/client/InventoryApiClient.java      |   1 [31m-[m
+ .../controller/StatisticsController.java           |   2 [31m-[m
+ .../statistics/dto/InventoryItemResponse.java      |   1 [31m-[m
+ .../statistics/dto/InventoryPageResponse.java      |   1 [31m-[m
+ .../com/example/statistics/dto/PageMetadata.java   |   1 [31m-[m
+ .../example/statistics/dto/StatisticsResponse.java |   1 [31m-[m
+ .../statistics/entity/StatisticsCategory.java      |   1 [31m-[m
+ .../statistics/entity/StatisticsSnapshot.java      |   1 [31m-[m
+ .../repository/StatisticsCategoryRepository.java   |   1 [31m-[m
+ .../repository/StatisticsSnapshotRepository.java   |   1 [31m-[m
+ .../statistics/scheduler/StatisticsScheduler.java  |   1 [31m-[m
+ .../service/StatisticsCollectionService.java       |   2 [31m-[m
+ .../statistics/service/StatisticsQueryService.java |   2 [31m-[m
+ .../db/migration/V1__create_statistics_tables.sql  |   1 [31m-[m
+ 36 files changed, 409 insertions(+), 222 deletions(-)

@@ -1,4 +1,3 @@
-
 package com.example.statistics.repository;
 
 import com.example.statistics.entity.StatisticsCategory;
